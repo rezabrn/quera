@@ -1,5 +1,8 @@
 package ir.ac.kntu;
 
+// import java.util.ArrayList;
+import java.util.*;
+
 public class User {
     private String name;
     private String userName;
@@ -7,6 +10,11 @@ public class User {
     private String password;
     private String nationalCode;
     private String phone;
+    // private ArrayList<User> users = new ArrayList<>();
+
+    public User() {
+        // users ;
+    }
 
     public User(String name, String userName, String email, String password, String nationalCode, String phone) {
         this.name = name;
@@ -38,7 +46,15 @@ public class User {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        while (true)
+        if (email.matches("\\S+@\\w+\\.\\S+")) {
+            this.email = email;
+            break;
+        } else {
+            System.out.println("it is not an accepteble email!");
+            System.out.println("please try again with (*@*.*)");
+            setEmail((new Scanner(System.in)).nextLine());
+        }
     }
 
     public String getPassword() {
@@ -63,5 +79,10 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @Override
+    public int hashCode() {
+        return userName.hashCode() + password.hashCode();
     }
 }

@@ -1,18 +1,26 @@
 package ir.ac.kntu;
 
+import java.util.ArrayList;
+
 public class Practice {
     private String name;
     private String details;
     private Date date;
     private int extraTime;
     private double delayCoefficient;
+    private ArrayList<Question> questions;
 
-    public Practice(String name, String details, Date date, int extraTime, double delayCoefficient) {
+    public Practice() {
+        questions = new ArrayList<>();
+    }
+
+    public Practice(String name, String details, Date date, int extraTime, double delayCoefficient, ArrayList<Question> questions) {
         this.name = name;
         this.details = details;
         this.date = date;
         this.extraTime = extraTime;
         this.delayCoefficient = delayCoefficient;
+        this.questions = questions;
     }
 
     public String getName() {
@@ -55,6 +63,12 @@ public class Practice {
         this.delayCoefficient = delayCoefficient;
     }
 
-    
+    public ArrayList<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(ArrayList<Question> questions) {
+        this.questions = questions;
+    }
     
 }

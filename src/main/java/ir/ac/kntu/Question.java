@@ -4,11 +4,13 @@ public class Question {
     private String name;
     private int score;
     private String text;
+    private Type questionType;
 
-    public Question(String name, int score, String text) {
+    public Question(String name, int score, String text, Type questionType) {
         this.name = name;
         this.score = score;
         this.text = text;
+        this.questionType = questionType;
     }
 
     public String getName() {
@@ -35,6 +37,14 @@ public class Question {
         this.text = text;
     }
 
+    public Type getQuestionType() {
+        return questionType;
+    }
+
+    public void setQuestionType(Type questionType) {
+        this.questionType = questionType;
+    }
+
     enum Level {
         EASY, NORMAL, DIFFICULT, SUPER_DIFFICULT
     }
@@ -42,4 +52,12 @@ public class Question {
     enum Type {
         DESCRIPTIVE, TEST, SHORT_ANSWER, BLANK
     }
+
+    @Override
+    public String toString() {
+        return text +
+        "\n\nname = " + name + "      questionType = " + questionType.toString() + "           score = " + score;
+    }
+
+    
 }
