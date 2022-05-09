@@ -1,26 +1,31 @@
 package ir.ac.kntu;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Practice {
     private String name;
     private String details;
-    private Date date;
-    private int extraTime;
+    private LocalDateTime deadline;
+    private LocalDateTime extraTime;
     private double delayCoefficient;
     private ArrayList<Question> questions;
+    private Scoreboard scoreboard;
+    private boolean schedule;
 
     public Practice() {
         questions = new ArrayList<>();
     }
 
-    public Practice(String name, String details, Date date, int extraTime, double delayCoefficient, ArrayList<Question> questions) {
+    public Practice(String name, String details, LocalDateTime deadline, LocalDateTime extraTime,
+            double delayCoefficient, ArrayList<Question> questions, boolean schedule) {
         this.name = name;
         this.details = details;
-        this.date = date;
+        this.deadline = deadline;
         this.extraTime = extraTime;
         this.delayCoefficient = delayCoefficient;
         this.questions = questions;
+        this.schedule = schedule;
     }
 
     public String getName() {
@@ -39,19 +44,19 @@ public class Practice {
         this.details = details;
     }
 
-    public Date getDate() {
-        return date;
+    public LocalDateTime getDeadline() {
+        return deadline;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDeadline(LocalDateTime deadline) {
+        this.deadline = deadline;
     }
 
-    public int getExtraTime() {
+    public LocalDateTime getExtraTime() {
         return extraTime;
     }
 
-    public void setExtraTime(int extraTime) {
+    public void setExtraTime(LocalDateTime extraTime) {
         this.extraTime = extraTime;
     }
 
@@ -70,5 +75,27 @@ public class Practice {
     public void setQuestions(ArrayList<Question> questions) {
         this.questions = questions;
     }
-    
+
+    public Scoreboard getScoreboard() {
+        return scoreboard;
+    }
+
+    public void setScoreboard(Scoreboard scoreboard) {
+        this.scoreboard = scoreboard;
+    }
+
+    public boolean isSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(boolean schedule) {
+        this.schedule = schedule;
+    }
+
+    @Override
+    public String toString() {
+        return "\nname = " + name + "\ndetails = " + details + "\ndeadline = " + deadline + "\nextraTime = " + extraTime
+                + "\ndelayCoefficient = " + delayCoefficient;
+    }
+
 }

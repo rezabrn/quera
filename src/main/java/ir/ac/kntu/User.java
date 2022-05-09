@@ -1,7 +1,6 @@
 package ir.ac.kntu;
 
-// import java.util.ArrayList;
-import java.util.*;
+import java.util.Scanner;
 
 public class User {
     private String name;
@@ -10,10 +9,9 @@ public class User {
     private String password;
     private String nationalCode;
     private String phone;
-    // private ArrayList<User> users = new ArrayList<>();
 
     public User() {
-        // users ;
+
     }
 
     public User(String name, String userName, String email, String password, String nationalCode, String phone) {
@@ -46,14 +44,16 @@ public class User {
     }
 
     public void setEmail(String email) {
-        while (true)
-        if (email.matches("\\S+@\\w+\\.\\S+")) {
-            this.email = email;
-            break;
-        } else {
-            System.out.println("it is not an accepteble email!");
-            System.out.println("please try again with (*@*.*)");
-            setEmail((new Scanner(System.in)).nextLine());
+        while (true) {
+            if (email.matches("\\S+@\\w+\\.\\S+")) {
+                this.email = email;
+                break;
+            } else {
+                System.out.println("it is not an accepteble email!");
+                System.out.println("please try again with (*@*.*)");
+                String input = (new Scanner(System.in)).nextLine();
+                setEmail(input);
+            }
         }
     }
 
@@ -79,6 +79,36 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        User that = (User) obj;
+        if (!name.equals(that.name)) {
+            return false;
+        }
+        if (!userName.equals(that.userName)) {
+            return false;
+        }
+        if (!password.equals(that.password)) {
+            return false;
+        }
+        if (!email.equals(that.email)) {
+            return false;
+        }
+        if (!nationalCode.equals(that.nationalCode)) {
+            return false;
+        }
+        if (!phone.equals(that.phone)) {
+            return false;
+        }
+        return true;
     }
 
     @Override

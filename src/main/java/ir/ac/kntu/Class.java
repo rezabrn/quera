@@ -12,7 +12,6 @@ public class Class {
     private String password;
     private String classDetails;
     private ArrayList<User> students;
-    private Scoreboard scoreboard;
     private ArrayList<Practice> practices;
 
     public Class() {
@@ -103,14 +102,6 @@ public class Class {
 
     public void setStudents(ArrayList<User> students) {
         this.students = students;
-    }
-
-    public Scoreboard getScoreboard() {
-        return scoreboard;
-    }
-
-    public void setScoreboard(Scoreboard scoreboard) {
-        this.scoreboard = scoreboard;
     }
 
     public ArrayList<Practice> getPractices() {

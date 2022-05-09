@@ -1,10 +1,10 @@
 package ir.ac.kntu;
 
-public class dateOfOwning {
+public class Date {
     private int start;
     private int finish;
 
-    dateOfOwning(int start, int finish) {
+    Date(int start, int finish) {
         this.start = start;
         this.finish = finish;
     }
@@ -27,7 +27,7 @@ public class dateOfOwning {
 
     @Override
     public String toString() {
-        return "dateOfOwning [finish=" + finish + ", start=" + start + "]";
+        return "Date [finish=" + finish + ", start=" + start + "]";
     }
 
     
