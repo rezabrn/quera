@@ -1,13 +1,28 @@
 package ir.ac.kntu;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class Question {
     private String name;
+
     private int score;
+
     private String text;
+
     private Type questionType;
+
     private Level level;
+
     private String answer;
-    private String studentAnswer;
+
+    private HashMap<User, ArrayList<String>> studentAnswer;
+
+    private HashMap<User, Double> studentScore;
+
+    public Question() {
+
+    }
 
     public Question(String name, int score, String text, Type questionType, Level level, String answer) {
         this.name = name;
@@ -72,6 +87,22 @@ public class Question {
 
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+    public HashMap<User, ArrayList<String>> getStudentAnswer() {
+        return studentAnswer;
+    }
+
+    public void setStudentAnswer(HashMap<User, ArrayList<String>> studentAnswer) {
+        this.studentAnswer = studentAnswer;
+    }
+
+    public HashMap<User, Double> getStudentScore() {
+        return studentScore;
+    }
+
+    public void setStudentScore(HashMap<User, Double> studentScore) {
+        this.studentScore = studentScore;
     }
 
     enum Level {

@@ -4,10 +4,15 @@ import java.util.Scanner;
 
 public class User {
     private String name;
+
     private String userName;
+
     private String email;
+
     private String password;
+
     private String nationalCode;
+
     private String phone;
 
     public User() {
@@ -44,17 +49,7 @@ public class User {
     }
 
     public void setEmail(String email) {
-        while (true) {
-            if (email.matches("\\S+@\\w+\\.\\S+")) {
-                this.email = email;
-                break;
-            } else {
-                System.out.println("it is not an accepteble email!");
-                System.out.println("please try again with (*@*.*)");
-                String input = (new Scanner(System.in)).nextLine();
-                setEmail(input);
-            }
-        }
+        this.email = email;
     }
 
     public String getPassword() {
@@ -115,4 +110,11 @@ public class User {
     public int hashCode() {
         return userName.hashCode() + password.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return ", name = " + name + ", userName = " + userName + "email = " + email + ", nationalCode = " + nationalCode
+                + ", phone = " + phone;
+    }
+
 }

@@ -11,14 +11,26 @@ public class Courses {
     ArrayList<Question> bank = new ArrayList<>();
 
     public Courses() {
-        bank.addAll(Test.questions());
-        users.addAll(Test.users());
-        classes.addAll(Test.classes());
+        // bank.addAll(Test.questions());
+        // users.addAll(Test.users());
+        // classes.addAll(Test.classes());
     }
 
     public void register() {
         User user = new User();
         String input = new String();
+        register2(user, input);
+        System.out.println("enter your national code");
+        input = in();
+        user.setNationalCode(input);
+        System.out.println("enter your phone number");
+        input = in();
+        user.setPhone(input);
+        users.add(user);
+        menu();
+    }
+
+    public void register2(User user, String input) {
         System.out.println("enter your name");
         input = in();
         user.setName(input);
@@ -31,14 +43,6 @@ public class Courses {
         System.out.println("enter a password");
         input = in();
         user.setPassword(input);
-        System.out.println("enter your national code");
-        input = in();
-        user.setNationalCode(input);
-        System.out.println("enter your phone number");
-        input = in();
-        user.setPhone(input);
-        users.add(user);
-        menu();
     }
 
     public void editClass(Class clas, User user) {
@@ -53,29 +57,29 @@ public class Courses {
         switch (section) {
             case "1":
                 editName(clas);
-                sectionEdition(section, clas, user);
+                editClass(clas, user);
             case "2":
                 editAcademicYear(clas);
-                sectionEdition(section, clas, user);
+                editClass(clas, user);
             case "3":
                 editInstitution(clas);
-                sectionEdition(section, clas, user);
+                editClass(clas, user);
             case "4":
                 editAccess(clas);
-                sectionEdition(section, clas, user);
+                editClass(clas, user);
             case "5":
                 editPrivacy(clas);
-                sectionEdition(section, clas, user);
+                editClass(clas, user);
             case "6":
                 editDefinition(clas);
-                sectionEdition(section, clas, user);
+                editClass(clas, user);
             case "7":
                 removeStudent(clas);
-                sectionEdition(section, clas, user);
+                editClass(clas, user);
             case "8":
                 teacherMenu(clas, user);
             default:
-                sectionEdition(section, clas, user);
+                editClass(clas, user);
         }
     }
 
@@ -121,9 +125,13 @@ public class Courses {
         for (int i = 0; i < clas.getStudents().size(); i++) {
             System.out.println((i + 1) + ". " + clas.getStudents().get(i));
         }
-        System.out.println("chose the number of student");
-        int student = Integer.parseInt(in());
-        clas.getStudents().remove(student - 1);
+        System.out.println("\nchose the number of student\n");
+        String student = in();
+        if (Integer.parseInt(student) >= clas.getStudents().size() || Integer.parseInt(student) < 0) {
+            System.out.println("\nyou can only enter the number of student\n");
+            removeStudent(clas);
+        }
+        clas.getStudents().remove(Integer.parseInt(student) - 1);
         System.out.println("student removing is successfuly done");
     }
 
@@ -135,7 +143,7 @@ public class Courses {
         System.out.println("5. privacy");
         System.out.println("6. definition");
         System.out.println("7. students");
-        System.out.println("8. turn back to users menu");
+        System.out.println("8. turn back to teacher menu");
     }
 
     public void addStudent(Class clas, User teacher) {
@@ -145,12 +153,7 @@ public class Courses {
     }
 
     public User getUserByChoosedWay(Class clas, User teacher) {
-        System.out.println("do you want to add user in which way?");
-        System.out.println("1. by email");
-        System.out.println("2. by national code");
-        System.out.println("3. out");
-        String way = in();
-        switch (way) {
+        switch (forGetUserByChoosedWay()) {
             case "1":
                 System.out.println("enter email");
                 String email = in();
@@ -161,6 +164,7 @@ public class Courses {
                 } else {
                     return user;
                 }
+                getUserByChoosedWay(clas, teacher);
             case "2":
                 System.out.println("enter national code");
                 String nationalCode = in();
@@ -171,12 +175,20 @@ public class Courses {
                 } else {
                     return user2;
                 }
+                getUserByChoosedWay(clas, teacher);
             case "3":
                 teacherMenu(clas, teacher);
-            default:
-                getUserByChoosedWay(clas, teacher);
-                return null;
         }
+        return null;
+    }
+
+    public String forGetUserByChoosedWay() {
+        System.out.println("do you want to add user in which way?");
+        System.out.println("1. by email");
+        System.out.println("2. by national code");
+        System.out.println("3. out");
+        String way = in();
+        return way;
     }
 
     public void classMaker(User user) {
@@ -210,7 +222,6 @@ public class Courses {
         clas.setClassDetails(input);
         classes.add(clas);
         System.out.println("your class has been completely made");
-        //
         usersOptions(user);
     }
 
@@ -262,37 +273,80 @@ public class Courses {
         return null;
     }
 
+    public Class classSearchByWhat(User user) {
+        String input = forClassSearchByWhat();
+        switch (input) {
+            case "1":
+                System.out.println("enter the name");
+                input = in();
+                if (input == null) {
+                    classSearch(user);
+                }
+                return getClassByName(input);
+            case "2":
+                System.out.println("enter the owner's name");
+                input = in();
+                if (input == null) {
+                    classSearch(user);
+                }
+                return getClassByOwner(input);
+            case "3":
+                System.out.println("*enter the institution's name");
+                input = in();
+                if (input == null) {
+                    classSearch(user);
+                }
+                return getClassByInstitution(input);
+            default:
+                classSearch(user);
+                return null;
+        }
+    }
+
+    public String forClassSearchByWhat() {
+        System.out.println("choose the way");
+        System.out.println("1. search by name  2. search by owner  3. search by institution");
+        String input = in();
+        return input;
+    }
+
     public void classSearch(User user) {
-        System.out.println("enter the name of the class");
-        String name = in();
-        Class clas = getClassByName(name);
+        Class clas = classSearchByWhat(user);
         if (clas == null) {
-            System.out.println("there is not class with this name");
+            System.out.println("\nthere is not class with this name\n");
             usersOptions(user);
         } else if (clas.isOpen() && !clas.getTeacher().equals(user) && !clas.getStudents().contains(user)) {
             System.out.println("do you want to join this class? enter Y or N");
             String a = in();
-            if (a == "Y") {
+            if (a.equals("Y")) {
                 if (clas.isGeneral()) {
                     clas.getStudents().add(user);
-                    System.out.println("you have successfuly joined the class");
+                    System.out.println("\nyou have successfuly joined the class\n");
                 } else {
-                    System.out.println("enter the password");
+                    System.out.println("\nenter the password\n");
                     String pass = in();
-                    if (pass == clas.getPassword()) {
+                    if (pass.equals(clas.getPassword())) {
+                        System.out.println("\nyou have successfuly joined the class\n");
                         clas.getStudents().add(user);
                     } else {
-                        System.out.println("password is incorrect");
+                        System.out.println("\npassword is incorrect\n");
+                        classSearch(user);
                     }
                 }
             }
-        } else if (clas.getTeacher().equals(user) || clas.getStudents().contains(user)) {
-            enterClass(clas, user);
-        } else {
-            System.out.println("this class is closed");
-            System.out.println("you can only join the class by the class owner");
         }
+        forClassSearch(clas, user);
         usersOptions(user);
+    }
+
+    public void forClassSearch(Class clas, User user) {
+        if (clas.getTeacher().equals(user) || clas.getStudents().contains(user)) {
+            enterClass(clas, user);
+        }
+        if (!clas.isOpen()) {
+            System.out.println("\nthis class is closed");
+            System.out.println("you can only join the class by the class owner\n");
+        }
     }
 
     public void showClass(Class clas) {
@@ -307,18 +361,16 @@ public class Courses {
         System.out.println("choose a number");
         System.out.println("1. users");
         System.out.println("2. question bank");
-
         String number = in();
         switch (number) {
             case "1":
                 usersMenu();
-                break;
+                menu();
             case "2":
                 showBank();
-                break;
+                menu();
             default:
                 menu();
-                break;
         }
 
     }
@@ -328,11 +380,10 @@ public class Courses {
         System.out.println();
         System.out.println("--------------------------------------------------------");
         for (Question q : bank) {
-            System.out.println("&" + (i) + "$" + q);
+            System.out.println("*" + (i) + "* " + q);
             System.out.println("--------------------------------------------------------");
             i++;
         }
-        menu();
     }
 
     public void usersMenu() {
@@ -356,7 +407,6 @@ public class Courses {
             default:
                 usersMenu();
         }
-
     }
 
     public User signIn() {
@@ -387,13 +437,11 @@ public class Courses {
             default:
                 usersOptions(user);
         }
-
     }
 
-    public String in() {
+    public static String in() {
         Scanner in = new Scanner(System.in);
         String input = in.nextLine();
-        // in.close();
         return input;
     }
 
@@ -449,7 +497,8 @@ public class Courses {
         System.out.println("1. edit class");
         System.out.println("2. make practice");
         System.out.println("3. add user");
-        System.out.println("4. out");
+        System.out.println("4. correction");
+        System.out.println("5. back");
         String number = in();
         switch (number) {
             case "1":
@@ -462,6 +511,9 @@ public class Courses {
                 addStudent(clas, user);
                 teacherMenu(clas, user);
             case "4":
+                correction(clas, user);
+                teacherMenu(clas, user);
+            case "5":
                 usersOptions(user);
             default:
                 teacherMenu(clas, user);
@@ -490,7 +542,7 @@ public class Courses {
 
     public void setQuestion(Class clas, User teacher, Practice practice) {
         System.out.println("choose the way of adding question");
-        System.out.println("1. add by myself");
+        System.out.println("1. add myself");
         System.out.println("2. add from queation bank");
         System.out.println("3. turn back");
         String way = in();
@@ -525,68 +577,76 @@ public class Courses {
 
     public ArrayList<Question> questions() {
         ArrayList<Question> questions = new ArrayList<>();
-        for (int i = 0;; i++) {
+        Question question;
+        while (true) {
+            question = new Question();
             String number = new String();
             System.out.println("set a name for the question");
             number = in();
-            questions.get(i).setName(number);
+            question.setName(number);
             System.out.println("set a score for the question");
             number = in();
-            questions.get(i).setScore(Integer.parseInt(number));
+            question.setScore(Integer.parseInt(number));
             System.out
                     .println("choose the type of the question:   1.DESCRIPTIVE,   2.TEST,   3.SHORT_ANSWER,   4.BLANK");
             number = in();
-            setType(questions, i, number);
+            setType(question, number);
             System.out.println(
                     "choose the difficulty of question:   1.EASY,   2.NORMAL,   3.DIFFICULT,   4.SUPER_DIFFICULT");
-            setLevel(questions, i, number);
+            number = in();
+            setLevel(question, number);
             System.out.println("write the text of the question");
+            forQuestions(questions, question, number);
+            System.out.println("enter 'X' if do you want to finish or enter any key to continue");
             number = in();
-            questions.get(i).setText(number);
-            System.out.println("enter 'X' if do you want to finish");
-            number = in();
-            if (number == "X") {
+            if (number.equals("X")) {
                 break;
             }
         }
         return questions;
     }
 
-    public void setType(ArrayList<Question> questions, int i, String number) {
+    public void forQuestions(ArrayList<Question> questions, Question question, String number) {
+        number = in();
+        question.setText(number);
+        questions.add(question);
+    }
+
+    public void setType(Question question, String number) {
         switch (number) {
             case "1":
-                questions.get(i).setQuestionType(Question.Type.DESCRIPTIVE);
+                question.setQuestionType(Question.Type.DESCRIPTIVE);
                 break;
             case "2":
-                questions.get(i).setQuestionType(Question.Type.TEST);
+                question.setQuestionType(Question.Type.TEST);
                 break;
             case "3":
-                questions.get(i).setQuestionType(Question.Type.SHORT_ANSWER);
+                question.setQuestionType(Question.Type.SHORT_ANSWER);
                 break;
             case "4":
-                questions.get(i).setQuestionType(Question.Type.BLANK);
+                question.setQuestionType(Question.Type.BLANK);
                 break;
             default:
-                setType(questions, i, number);
+                setType(question, number);
         }
     }
 
-    public void setLevel(ArrayList<Question> questions, int i, String number) {
+    public void setLevel(Question question, String number) {
         switch (number) {
             case "1":
-                questions.get(i).setLevel(Question.Level.EASY);
+                question.setLevel(Question.Level.EASY);
                 break;
             case "2":
-                questions.get(i).setLevel(Question.Level.NORMAL);
+                question.setLevel(Question.Level.NORMAL);
                 break;
             case "3":
-                questions.get(i).setLevel(Question.Level.DIFFICULT);
+                question.setLevel(Question.Level.DIFFICULT);
                 break;
             case "4":
-                questions.get(i).setLevel(Question.Level.SUPER_DIFFICULT);
+                question.setLevel(Question.Level.SUPER_DIFFICULT);
                 break;
             default:
-                setLevel(questions, i, number);
+                setLevel(question, number);
         }
     }
 
@@ -609,7 +669,7 @@ public class Courses {
                 doPractice(clas, student);
                 studentMenu(clas, student);
             case "2":
-                schedule(clas, student);
+                // schedule(clas, student);
                 studentMenu(clas, student);
             case "3":
                 usersOptions(student);
@@ -621,74 +681,82 @@ public class Courses {
     public void doPractice(Class clas, User student) {
         System.out.println("--------------------------------------------------------");
         for (int i = 0; i < clas.getPractices().size(); i++) {
-            System.out.println("$" + (i + 1) + "$" + clas.getPractices().get(i));
+            System.out.println((i + 1) + ". " + clas.getPractices().get(i));
             System.out.println("--------------------------------------------------------");
         }
-        System.out.println("do you want to get back? enter 'Y'");
+        System.out.println("choose the practice, and if you wanna go, enter 'X'");
         String input = in();
-        if (input == "Y") {
+        if (input == "X") {
             studentMenu(clas, student);
-            ;
         }
-        System.out.println("choose the practice");
-        input = in();
         doQuestion(clas, student, clas.getPractices().get(Integer.parseInt(input) - 1));
     }
 
     public void doQuestion(Class clas, User student, Practice practice) {
         System.out.println("--------------------------------------------------------");
-        for (int i = 0; i < practices().size(); i++) {
-            System.out.println("$" + (i + 1) + "$" + practices().get(i));
+        for (int i = 0; i < practice.getQuestions().size(); i++) {
+            System.out.println((i + 1) + ". " + practice.getQuestions().get(i));
             System.out.println("--------------------------------------------------------");
         }
-        System.out.println("do you want to get back? enter 'Y'");
+        System.out.println("choose the question, and if you wanna go, enter 'X'");
         String input = in();
-        if (input == "Y") {
+        if (input == "X") {
             doPractice(clas, student);
         }
-        System.out.println("choose the question");
-        input = in();
         solving(clas, student, practice, practice.getQuestions().get(Integer.parseInt(input) - 1));
     }
 
     public void solving(Class clas, User student, Practice practice, Question question) {
-        switch (question.getQuestionType()) {
-            case Type.DESCRIPTIVE:
-                writeAnswer(question);
-                doQuestion(clas, student, practice);
-            case Type.TEST:
-                doTest(question);
-                doQuestion(clas, student, practice);
-            case Type.SHORT_ANSWER:
-                writeAnswer(question);
-                doQuestion(clas, student, practice);
-            case Type.BLANK:
-                writeAnswer(question);
-                doQuestion(clas, student, practice);
-            default:
-                solving(clas, student, practice, question);
-        }
-    }
-
-    public void writeAnswer(Question question) {
+        ArrayList<String> answers = new ArrayList<>();
         System.out.println("write your answer");
         String input = in();
-        question.setStudentAnswer(input);
+        answers.add(input);
+        question.getStudentAnswer().put(student, answers);
+        doQuestion(clas, student, practice);
     }
 
-    public void schedule(Class clas, User student) {
+    public void correction(Class clas, User user) {
         System.out.println("--------------------------------------------------------");
-        for (int i = 0; i < practices().size(); i++) {
-            System.out.println("$" + (i + 1) + "$" + practices().get(i));
+        for (int i = 0; i < clas.getPractices().size(); i++) {
+            System.out.println((i + 1) + ". " + clas.getPractices().get(i));
             System.out.println("--------------------------------------------------------");
         }
-        System.out.println("choose the practice");
+        System.out.println("choose the practice, and if you wanna go, enter 'X'");
         String input = in();
-        if (clas.getPractices(input).isSchedule()) {
-            System.out.println((clas.getScoreboard()));
-            studentMenu(clas, student);
-        } else {
-            studentMenu(clas, student);
+        if (input == "X") {
+            teacherMenu(clas, user);
         }
+        correctionPractice(clas, user, clas.getPractices().get(Integer.parseInt(input) - 1));
+    }
+
+    public void correctionPractice(Class clas, User user, Practice practice) {
+        System.out.println("--------------------------------------------------------");
+        for (int i = 0; i < practice.getQuestions().size(); i++) {
+            System.out.println((i + 1) + ". " + practice.getQuestions().get(i));
+            System.out.println("--------------------------------------------------------");
+        }
+        System.out.println("choose the question, and if you wanna go, enter 'X'");
+        String input = in();
+        if (input == "X") {
+            correction(clas, user);
+        }
+        correctionQuestion(clas, user, practice, practice.getQuestions().get(Integer.parseInt(input) - 1));
+    }
+
+    public void correctionQuestion(Class clas, User user, Practice practice, Question question) {
+        int i = 0;
+        for (User student : question.getStudentAnswer().keySet()) {
+            System.out.println("--------------------------------------------------------");
+            System.out.println(student);
+            System.out.println("--------------------------------------------------------");
+        }
+        System.out.println("choose a student by email and correct its answer, and if you wanna go, enter 'X'");
+        String input = in();
+        System.out.println("\n" + question.getStudentAnswer().get(getUserByEmail(input)));
+        String student = input;
+        System.out.println("set a score for it\n");
+        input = in();
+        question.getStudentScore().put(getUserByEmail(student), Double.parseDouble(input));
+        correctionPractice(clas, user, practice);
     }
 }

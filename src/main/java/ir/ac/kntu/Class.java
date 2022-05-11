@@ -4,14 +4,23 @@ import java.util.ArrayList;
 
 public class Class {
     private String name;
+
     private String institution;
+
     private User teacher;
+
     private int academicYear;
+
     private boolean open;
+
     private boolean general;
+
     private String password;
+
     private String classDetails;
+
     private ArrayList<User> students;
+
     private ArrayList<Practice> practices;
 
     public Class() {
@@ -114,13 +123,13 @@ public class Class {
 
     @Override
     public String toString() {
-        return "academicYear =" + academicYear +
-                "classDetails =" + classDetails +
-                "general =" + general +
-                "institution =" + institution +
-                "name =" + name +
-                "open =" + open +
-                "password =" + password +
-                "teacher =" + teacher.getName();
+        return "\nacademicYear = " + academicYear +
+                "\nclassDetails = " + classDetails +
+                "\ngeneral = " + general +
+                "\ninstitution = " + institution +
+                "\nname = " + name +
+                "\nopen = " + open +
+                "\npassword = " + password +
+                "\nteacher = " + teacher.getName() + "\n";
     }
 }

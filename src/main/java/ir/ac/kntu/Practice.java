@@ -5,12 +5,19 @@ import java.util.ArrayList;
 
 public class Practice {
     private String name;
+
     private String details;
+
     private LocalDateTime deadline;
+
     private LocalDateTime extraTime;
+
     private double delayCoefficient;
+
     private ArrayList<Question> questions;
+
     private Scoreboard scoreboard;
+
     private boolean schedule;
 
     public Practice() {
